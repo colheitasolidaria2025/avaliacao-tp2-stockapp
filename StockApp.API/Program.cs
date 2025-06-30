@@ -2,6 +2,7 @@ using StockApp.Application.Interfaces;
 using StockApp.Application.Services;
 using StockApp.Infra.IoC;
 using StockApp.Domain;
+using StockApp.Domain.Interfaces;
 
 public class Program
 {
@@ -53,8 +54,11 @@ public class Program
 
 		app.Run();
 
+
+		builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 		var backupService = app.Services.GetRequiredService<IBackupService>();
 		var timer = new System.Threading.Timer(_ => backupService.BackupDatabase(), null, TimeSpan.Zero, TimeSpan.FromHours(24));
+
 
 
 	}

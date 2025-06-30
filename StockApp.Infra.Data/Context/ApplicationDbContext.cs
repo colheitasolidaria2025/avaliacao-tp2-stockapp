@@ -22,5 +22,9 @@ namespace StockApp.Infra.Data.Context
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
-    }
+		public DbSet<Review> Reviews { get; set; }
+
+
+	}
+
 }

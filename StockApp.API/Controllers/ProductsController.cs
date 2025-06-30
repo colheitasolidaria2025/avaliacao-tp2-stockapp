@@ -67,5 +67,4 @@ namespace StockApp.API.Controllers
 			return Ok(products);
 		}
 
-	}
 }
