@@ -56,5 +56,49 @@ namespace StockApp.API.Controllers
             return Ok(product);
 
         }
+<<<<<<< Updated upstream
     }
+=======
+		[HttpGet("filtered")]
+		public async Task<ActionResult<IEnumerable<Product>>> GetFiltered(
+	     [FromQuery] string name,
+	    [FromQuery] decimal? minPrice,
+	    [FromQuery] decimal? maxPrice)
+		{
+			var products = await _productRepository.GetFilteredAsync(name, minPrice, maxPrice);
+			return Ok(products);
+		}
+		private readonly IReviewRepository _reviewRepository;
+
+		public ProductsController(IReviewRepository reviewRepository /*, outros parâmetros que você já tem */)
+		{
+			_reviewRepository = reviewRepository;
+			// atribua outros parâmetros
+		}
+
+		[HttpPost("{productId}/review")]
+		public async Task<IActionResult> AddReview(int productId, [FromBody] Review review)
+		{
+			if (review.Rating < 1 || review.Rating > 5)
+			{
+				return BadRequest("Rating deve ser entre 1 e 5.");
+			}
+
+			review.ProductId = productId;
+			review.Date = DateTime.Now;
+
+			await _reviewRepository.AddAsync(review);
+			return Ok();
+		}
+
+		[HttpGet("{productId}/reviews")]
+		public async Task<IActionResult> GetReviews(int productId)
+		{
+			var reviews = await _reviewRepository.GetByProductIdAsync(productId);
+			return Ok(reviews);
+		}
+
+
+	}
+>>>>>>> Stashed changes
 }
