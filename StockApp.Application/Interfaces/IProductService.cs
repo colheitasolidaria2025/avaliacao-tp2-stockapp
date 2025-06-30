@@ -9,5 +9,8 @@ namespace StockApp.Application.Interfaces
         Task Add(ProductDTO productDto);
         Task Update(ProductDTO productDto);
         Task Remove(int? id);
+
+        Task BulkUpdateAsync(List<ProductDTO> products);
+
     }
 }
