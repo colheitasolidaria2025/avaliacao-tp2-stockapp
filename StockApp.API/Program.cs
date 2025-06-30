@@ -16,7 +16,8 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddSingleton<ICartService, CartService>();
-
+        builder.Services.AddSingleton<ISentimentAnalysisService, SentimentAnalysisService>();
+        builder.Services.AddSingleton<IFeedbackService, FeedbackService>();
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
