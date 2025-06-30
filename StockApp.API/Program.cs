@@ -53,6 +53,9 @@ public class Program
 
 		app.Run();
 
+		var backupService = app.Services.GetRequiredService<IBackupService>();
+		var timer = new System.Threading.Timer(_ => backupService.BackupDatabase(), null, TimeSpan.Zero, TimeSpan.FromHours(24));
+
 
 	}
 }
