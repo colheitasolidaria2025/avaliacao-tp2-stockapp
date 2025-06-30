@@ -56,5 +56,15 @@ namespace StockApp.API.Controllers
             return Ok(product);
 
         }
-    }
+		[HttpGet("filtered")]
+		public async Task<ActionResult<IEnumerable<Product>>> GetFiltered(
+	[FromQuery] string name,
+	[FromQuery] decimal? minPrice,
+	[FromQuery] decimal? maxPrice)
+		{
+			var products = await _productRepository.GetFilteredAsync(name, minPrice, maxPrice);
+			return Ok(products);
+		}
+
+	}
 }
