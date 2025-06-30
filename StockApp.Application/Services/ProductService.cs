@@ -51,5 +51,18 @@ namespace StockApp.Application.Services
             var productEntity = _mapper.Map<Product>(productDto);
             await _productRepository.Update(productEntity);
         }
+
+        public async Task BulkUpdateAsync(List<ProductDTO> products)
+        {
+            foreach (var dto in products)
+            {
+                var existingProduct = await _productRepository.GetById(dto.Id);
+                if (existingProduct != null)
+                {
+                    _mapper.Map(dto, existingProduct);
+                    await _productRepository.Update(existingProduct);
+                }
+            }
+        }
     }
 }

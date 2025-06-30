@@ -7,26 +7,29 @@ using System.Linq;
 using System.Threading.Tasks;
 using StockApp.Infra.Data.Context;
 
-public class ReviewRepository : IReviewRepository
+namespace StockApp.Infra.Data.Repositories
 {
-	private readonly DbContext _context;
+    public class ReviewRepository : IReviewRepository
+    {
+        private readonly ApplicationDbContext _context;
 
-	public ReviewRepository(DbContext context)
-	{
-		_context = context;
-	}
+        public ReviewRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
-	public async Task AddAsync(Review review)
-	{
-		_context.Reviews.Add(review);
-		await _context.SaveChangesAsync();
-	}
+        public async Task AddAsync(Review review)
+        {
+            _context.Reviews.Add(review);
+            await _context.SaveChangesAsync();
+        }
 
-	public async Task<IEnumerable<Review>> GetByProductIdAsync(int productId)
-	{
-		return await _context.Reviews
-			.Where(r => r.ProductId == productId)
-			.OrderByDescending(r => r.Date)
-			.ToListAsync();
-	}
+        public async Task<IEnumerable<Review>> GetByProductIdAsync(int productId)
+        {
+            return await _context.Reviews
+                .Where(r => r.ProductId == productId)
+                .OrderByDescending(r => r.Date)
+                .ToListAsync();
+        }
+    }
 }

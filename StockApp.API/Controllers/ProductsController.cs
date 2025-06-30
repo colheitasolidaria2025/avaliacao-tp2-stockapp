@@ -2,6 +2,8 @@
 using StockApp.Domain.Entities;
 using StockApp.Domain.Interfaces;
 using StockApp.API.Controllers;
+using StockApp.Application.Interfaces;
+using StockApp.Application.DTOs;
 
 namespace StockApp.API.Controllers
 {
@@ -10,6 +12,15 @@ namespace StockApp.API.Controllers
     public class ProductsController : ControllerBase
 
     {
+        private readonly IProductService _productService;
+        private readonly IProductRepository _productRepository1;
+
+        public ProductsController(IProductRepository productRepository1, IProductService productService)
+        {
+            _productRepository1 = productRepository1;
+            _productService = productService;
+        }
+
         [HttpPost("{id}/upload-image")]
         public async Task<IActionResult> UploadImage(int id, IFormFile image)
         {
@@ -57,14 +68,22 @@ namespace StockApp.API.Controllers
             return Ok(product);
 
         }
-		[HttpGet("filtered")]
-		public async Task<ActionResult<IEnumerable<Product>>> GetFiltered(
-	     [FromQuery] string name,
-	    [FromQuery] decimal? minPrice,
-	    [FromQuery] decimal? maxPrice)
-		{
-			var products = await _productRepository.GetFilteredAsync(name, minPrice, maxPrice);
-			return Ok(products);
-		}
+        [HttpGet("filtered")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetFiltered(
+         [FromQuery] string name,
+        [FromQuery] decimal? minPrice,
+        [FromQuery] decimal? maxPrice)
+        {
+            var products = await _productRepository.GetFilteredAsync(name, minPrice, maxPrice);
+            return Ok(products);
 
+        }
+
+        [HttpPut("bulk-update")]
+        public async Task<IActionResult> BulkUpdate([FromBody] List<ProductDTO> products)
+        {
+            await _productService.BulkUpdateAsync(products);
+            return NoContent();
+        }
+    }
 }
