@@ -1,6 +1,7 @@
 using StockApp.Application.Interfaces;
 using StockApp.Application.Services;
 using StockApp.Infra.IoC;
+using StockApp.Domain;
 
 public class Program
 {
@@ -36,6 +37,21 @@ public class Program
 
         app.Run();
 
-       
-    }
+
+		if (app.Environment.IsDevelopment())
+		{
+			app.UseDeveloperExceptionPage();
+		}
+
+
+		app.UseRouting();
+		app.UseAuthentication();
+		app.UseAuthorization();
+
+		app.MapControllers();
+
+		app.Run();
+
+
+	}
 }
